@@ -26,15 +26,15 @@ challenges:
 
 * are they the same?
 
-the game runs on all Atari 8bit with GITA and at least 16k. it uses the memory from $2480 to $3000. it is an Atari DOS executable and works with all DOS versions providing MEMLO below $2480. it was developed using an Atari 800XL (Ultimate 1MB upgrade and Side3 harddisk) with SpartaDOS X and Fast Assembler 1.8. sources are provided with the game.
+the game runs on all Atari 8bit with GITA and at least 16k. it uses the memory from $2480 to $3000. it is an Atari DOS executable and works with all DOS versions providing MEMLO below $2480. it was developed using an Atari 800XL (Ultimate 1MB upgrade and Side3 harddisk) with SpartaDOS X and Fast Assembler 1.8 [https://github.com/HolgerJanz/FastAssembler](https://github.com/HolgerJanz/FastAssembler). sources are provided with the game.
 
 have fun!
 
 holgerjanz@msn.com
 
 <p align="center">
-  <img src="VARIUS1.png" width="400" height="300">
-  <img src="VARIUS2.png" width="400" height="300">
-  <img src="VARIUS3.png" width="400" height="300">
-  <img src="VARIUS4.png" width="400" height="300">
+  <img src="VARIUS1.png" width="400" height="250">
+  <img src="VARIUS2.png" width="400" height="250">
+  <img src="VARIUS3.png" width="400" height="250">
+  <img src="VARIUS4.png" width="400" height="250">
 </p>
