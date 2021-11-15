@@ -2,6 +2,7 @@
 Atari 8bit Game VARIUS
 
 by holger janz
+
 ABBUC software contest 2021
 
 the objective of the game is to slide color tiles on a grid to combine them to create tiles with color of higher level. after every slide a new tile of lowest color appears. the game ends if the highest color is reached - VICTUS, or no free space for new tile - EXITUS.
@@ -31,5 +32,9 @@ have fun!
 
 holgerjanz@msn.com
 
-[VARIUS1.png](VARIUS1.png)
-
+<p align="center">
+  <img src="VARIUS1.png" width="400" height="300">
+  <img src="VARIUS2.png" width="400" height="300">
+  <img src="VARIUS3.png" width="400" height="300">
+  <img src="VARIUS4.png" width="400" height="300">
+</p>
