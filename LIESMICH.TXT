@@ -1,0 +1,21 @@
+VARIUS von holger janz
+ABBUC Software-Wettbewerb 2021
+
+Das Ziel des Spiels ist es, Farbkacheln in einem Raster zu verschieben, um sie zu kombinieren und Kacheln mit einer höheren Farbe zu erstellen. Nach jeder Verschiebung erscheint eine neue Kachel mit der niedrigsten Farbe. Das Spiel endet, wenn die höchste Farbe erreicht ist - VICTUS oder kein freier Platz für eine neue Kachel ist - EXITUS.
+
+Die Skala für noch zu erreichende Farben befindet sich auf der linken Seite, für Farben, die bereits erreicht wurden auf der rechten Seite. Die aktuellen Punktzahlen werden in der oberen linken Ecke und die Highscores in der oberen rechten Ecke angezeigt.
+
+Taste START startet ein neues Spiel und bricht das aktuelle Spiel ab. Verwenden die Cursortasten oder den Joystick, um die Kacheln zu verschieben.
+
+In diesem Spiel werden keine Zufallsgeneratoren verwendet. Gleiche Eingabe, gleiches Ergebnis.
+Herausforderungen:
+Was ist die höchste Punktzahl für VICTUS?
+Was ist die höchste Punktzahl für EXITUS?
+Sind sie gleich?
+Was ist die niedrigste Punktzahl für VICTUS?
+Was ist die niedrigste Punktzahl für EXITUS?
+Sind sie gleich
+
+Das Spiel läuft auf allen Atari 8bit mit GITA und mindestens 16k. Es verwendet den Speicher von $2480 bis $3000. Es ist eine ausführbare ATARI DOS-Datei und funktioniert mit allen DOS-Versionen, die MEMLO unterhalb von $2480 bereitstellen. Es wurde entwickelt mit einem Atari 800XL (Ultimate 1MB Upgrade und Side3-Festplatte) unter SpartaDOS X und Fast Assembler 1.8. Quellentexte werden mit dem Spiel zur Verfügung gestellt.
+
+Viel Spaß!
