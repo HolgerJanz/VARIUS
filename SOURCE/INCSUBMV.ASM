@@ -4,16 +4,16 @@ moveLeft  lda #$00
           tax
           tay
 mvLeft    lda plyFld,X
-          beq *+21
-          sty _mvLeftCX+1
-_mvLeftCX cpx #$00
-          beq *+13
-          sta plyFld,Y
-          lda #$00
-          sta plyFld,X
-          jsr wait
-          iny
-          inx
+          beq *+21        ;2  2
+          sty _mvLeftCX+1 ;3  5
+_mvLeftCX cpx #$00        ;2  7
+          beq *+13        ;2  9  2
+          sta plyFld,Y    ;3 12  5
+          lda #$00        ;2 14  7
+          sta plyFld,X    ;3 17 10
+          jsr wait        ;3 20 13
+          iny             ;1 21
+          inx             ;1 22
 _mvLeftBX cpx #$04
           bne mvLeft
           lda _mvLeftBX+1

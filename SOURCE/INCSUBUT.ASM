@@ -96,7 +96,7 @@ scoreVar dta b($00,$00,$00)
 
 highVar  dta b($00,$00,$00)
 
-setHigh   lda scoreVar   compare high
+setHigh   lda scoreVar   ;compare high
           cmp highVar
           bcs *+3
           rts
@@ -111,15 +111,15 @@ setHigh   lda scoreVar   compare high
           bcs *+3
           rts
 
-_setHigh  lda scoreVar  save new high
+_setHigh  lda scoreVar  ;save new high
           sta highVar
           lda scoreVar+1
           sta highVar+1
           lda scoreVar+2
           sta highVar+2
 
-          ldx #$0f index of high
-          jsr setHeadSH  set new high
+          ldx #$0f ;index of high
+          jsr setHeadSH  ;set new high
 
           rts
 
@@ -140,7 +140,7 @@ addScore  txa
           asl @
           tax
 
-          sed calc new score
+          sed ;calc new score
           clc
           lda scoreVar+2
           adc scoreTab+1,X
@@ -153,7 +153,7 @@ addScore  txa
           sta scoreVar
           cld
 
-          ldx #$00 set score head
+          ldx #$00 ;set score head
           jsr setHeadSH
 
           rts
@@ -183,7 +183,7 @@ _setScl   lda #$00
           lda #$01
           sta gameOver
 
-          jsr addScore changes X
+          jsr addScore ;changes X
 
           pla
           tay
@@ -227,49 +227,49 @@ _setNew   dta b($00,$00,$00,$00)
 
 *** START/S key *********************
 
-startKey  lda #$00    reset game over
+startKey  lda #$00    ;reset game over
           sta gameOver
 
-          ldx #$05    set VARIUS
+          ldx #$05    ;set VARIUS
           lda varius,X
           sta colHT,X
           dex
           bpl *-7
 
-          lda #$00    clear field
+          lda #$00    ;clear field
           ldx #$0f
           sta plyFld,x
           dex
           bpl *-4
 
-          ldx #$04    clear score
+          ldx #$04   ; clear score
           lda colHL,X
           and #$f0
           sta colHL,X
           dex
           bpl *-9
 
-          lda #$00    clear ScoreVar
+          lda #$00    ;clear ScoreVar
           ldx #$02
           sta scoreVar,X
           dex
           bpl *-4
 
-          ldx #$0a    set left scale
+          ldx #$0a    ;set left scale
           txa
           sta fldSc1-1,X
           dex
           bne *-5
 
-          lda #$00    set right scale
+          lda #$00    ;set right scale
           ldx #$09
           sta fldSc2,X
           dex
           bpl *-4
 
-          jsr setNew  new first tile
+          jsr setNew  ;new first tile
 
-          ldx #$00    update scales
+          ldx #$00    ;update scales
           stx fldSc1
           inx
           stx fldSc2
