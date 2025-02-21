@@ -1,74 +1,9 @@
 ; VARIUS for Atari 5200
 
-; OS VARIABLES FOR 5200
-; PAGE 0
-POKMSK   equ $00
-RTCLOK2  equ $01
-RTCLOK1  equ $02
-CRITIC   equ $03
-ATRACT   equ $04
-SDLSTL   equ $05
-SDLSTH   equ $06
-SDMCTL   equ $07
-PCOLR0   equ $08
-PCOLR1   equ $09
-PCOLR2   equ $0a
-PCOLR3   equ $0b
-COLOR0   equ $0c
-COLOR1   equ $0d
-COLOR2   equ $0e
-COLOR3   equ $0f
-COLOR4   equ $10
-PADDL0   equ $11
-PADDL1   equ $12
-PADDL2   equ $13
-PADDL3   equ $14
-PADDL4   equ $15
-PADDL5   equ $16
-PADDL6   equ $17
-PADDL7   equ $18
-; PAGE 2
-VIMIRQ   equ $200 ;IMMED IRQ VECTOR
-VVBLKI   equ $202 ;IMM VBLK NMI VECTOR
-VVBLKD   equ $204 ;DEF VBLK NMI VECTOR
-VDSLST   equ $206 ;DSP LIST NMI VECTOR
-VKYBDI   equ $208 ;POKEY KB IRQ VECTOR
-VKYBDF   equ $20A ;Keypad routine continuation vector
-VTRIGR   equ $20C ;BREAK KEY VECTOR
-VBRKOP   equ $20E ;BRK INST IRQ VECTOR
-VSERIN   equ $210 ;POKEY INPUT RDY IRQ
-VSEROR   equ $212 ;POKEY OUTPUT RDY
-VSEROC   equ $214 ;POKEY OUTPUT DONE
-VTIMR1   equ $216 ;POKEY TIMER 1 IRQ
-VTIMR2   equ $218 ;POKEY TIMER 2 IRQ
-VTIMR4   equ $21A ;POKEY TIMER 4 IRQ
-; GTIA
-TRIG0    equ $c010
-TRIG1    equ $c011
-TRIG2    equ $c012
-TRIG3    equ $c013
-COLPM0   equ $c012
-COLPM1   equ $c013
-COLPM2   equ $c014
-COLPM3   equ $c015
-COLPF0   equ $c016
-COLPF1   equ $c017
-COLPF2   equ $c018
-COLPF3   equ $c019
-COLBAK   equ $c01a
-PRIOR    equ $c01b
-CONSOL   equ $c01f
-; POKEY
-AUDF1    equ $e800
-AUDC1    equ $e801
-AUDCTL   equ $e808
-IRQEN    equ $e80e
-SKCTL    equ $e80f
-; ANTIC
-NMIEN    equ $d40e
+; equates for Atari 5200
+          icl 'INCEQU52.ASM'
 
-*** Variables
-
+; Variables
 ztemp1    equ $80
 ztemp2    equ $81
 ztemp3    equ $82
@@ -90,31 +25,34 @@ colSc1    equ $330 ;12 bytes
 colSc2    equ $340 ;12 bytes
 
 ; variables page 4, init with pg4bgn-pg4end
-* Right Scale
+; Right Scale
 fldSc1    equ $400 ;10 bytes
-* Play Field
+; Play Field
 plyFld    equ $40A ;16 bytes
-* Left Scale
+; Left Scale
 fldSc2    equ $41A ;10 bytes
-* Header Line
-* 00000
+; Header Line
+; 00000
 colHL     equ $424 ;7 bytes
-* VARIUS
+; VARIUS
 colHT     equ $42B ;8 bytes
-* 00000
+; 00000
 colHH     equ $433 ;5 bytes
 
 
-*** Cartridge **************************
+; Cartridge
 ; 8k cartridge, one block without header 
-         opt f+ h-
-         org $A000
 
-start    cli            ;on 5200 it is on at start
+; for MADS comment next line and uncomment following lines
+         blk none $a000
+;         opt f+ h-
+;         org $A000
+
+start    cli        ;on 5200 it is on at start
          lda #0
-         sta CRITIC     ;we use deferred
+         sta CRITIC ;we use deferred
 
-         lda #0         ;init page 3 variables
+         lda #0     ;init page 3 variables
          tax
 startl11 sta $300,X
          inx
@@ -124,10 +62,10 @@ startl11 sta $300,X
 startl12 lda pg4bgn,X
          sta $400,X
          inx
-         cpx #pg4end-pg4bgn
+         cpx <pg4end-pg4bgn
          bne startl12
 
-         lda #$00       ;default color
+         lda #$00 ;default color
          ldx #$04
 startl2  sta PCOLR0,x
          dex
@@ -141,21 +79,21 @@ startl2  sta PCOLR0,x
          lda #$46
          sta COLOR3
 
-         lda <kybdfIrq  ;keyboard IRQ
+         lda <kybdfIrq ;keyboard IRQ
          sta VKYBDF
          lda >kybdfIrq
          sta VKYBDF+1
-         lda #$02       ;enable
+         lda #$02      ;enable
          sta SKCTL
          lda #$04
-         sta CONSOL     ;switch on analog sticks
+         sta CONSOL    ;switch on analog sticks
          lda #$40
          sta POKMSK
          sta IRQEN
 
-         jsr initSnd    ;init sound
+         jsr initSnd   ;init sound
 
-         ldx <colVblki  ;set deferred VBI
+         ldx <colVblki ;set deferred VBI
          ldy >colVblki
          lda #1
          jsr _wait
@@ -248,13 +186,13 @@ chkKey1  lda PADDL0   ;check Joystick
 
          jmp chkKey
 
-*** varius, victus, exitus **********
+; varius, victus, exitus
 
 varius dta b($36,$21,$32,$29,$35,$33)
 victus dta b($76,$69,$63,$74,$75,$73)
 exitus dta b($e5,$f8,$e9,$f4,$f5,$f3)
 
-*** wait routines *******************
+; wait routines
 
 waitLong  lda #$10
           bne _wait
@@ -265,7 +203,7 @@ _waitl1   cmp RTCLOK1
           bne _waitl1
           rts
 
-*** check game over *****************
+; check game over
 
 chkOver   lda gameOver
           bmi gameExi
@@ -290,7 +228,7 @@ gameVic   ldx #$05
           jsr playSndVI
           rts
 
-*** set score/high in head **********
+; set score/high in head
 
 setHeadSH lda colHL+4,X
           and #$f0
@@ -340,7 +278,7 @@ setHeadSH lda colHL+4,X
 
           rts
 
-*** set high score ******************
+; set high score
 
 setHigh   lda scoreVar   ;compare high
           cmp highVar
@@ -369,7 +307,7 @@ _setHigh  lda scoreVar  ;save new high
 
           rts
 
-*** add score (X) *******************
+; add score (X)
 
 scoreTab dta b($00,$01)
          dta b($00,$02)
@@ -404,7 +342,7 @@ addScore  txa
 
           rts
 
-*** set right and left scale ********
+; set right and left scale
 
 setScale  sta _setScl
           txa
@@ -439,7 +377,7 @@ setScale  sta _setScl
 
           rts
 
-*** calc and set new tile ***********
+; calc and set new tile
 
 setNew    ldx #$0f
           ldy #$ff
@@ -466,7 +404,7 @@ setNewEnd lda #$ff
           sta gameOver
           rts
 
-*** START key *************************
+; START key
 
 startKey  lda #$00    ;reset game over
           sta gameOver
@@ -518,7 +456,7 @@ startKey  lda #$00    ;reset game over
           jmp chkKey
 
 
-*** left key ************************
+; left key
 
 moveLeft  lda #$04
           sta ztemp2
@@ -587,7 +525,7 @@ leftKey   jsr moveLeft
           jsr chkOver
           jmp chkKey
 
-*** right key ***********************
+; right key
 
 moveRight lda #$03
           sta ztemp1
@@ -656,7 +594,7 @@ rightKey  jsr moveRight
           jsr chkOver
           jmp chkKey
 
-*** up key **************************
+; up key
 moveUp    lda #$10
           sta ztemp2
           lda #$00
@@ -737,7 +675,7 @@ upKey     jsr moveUp
           jsr chkOver
           jmp chkKey
 
-*** down key ************************
+; down key
 
 moveDown  lda #$0c
           sta ztemp1
@@ -820,8 +758,7 @@ downKey   jsr moveDown
           jmp chkKey
 
 
-**************************************
-* subroutines for sound
+; subroutines for sound
 
 sndDst1 dta b(%10000000)
 sndDst2 dta b(%10100000)
@@ -847,7 +784,6 @@ sndFExi dta b(243,243,243,243,243,243,243,243)
         dta b(243,243,243,243,243,243,243,243)
         dta b(243,243,243,243,243,243,243,243)
         dta b(0)
-
 
 sndVstr dta b(0)
 sndVol1 dta b(7,14,14,7,0)
@@ -882,42 +818,42 @@ initSnd2  sta AUDF1,X
           sta AUDCTL
           rts
 
-* joyn to new tile
+; joyn to new tile
 playSndJN lda sndDst1
           sta sndDstr
           lda #sndFre1-sndFstr
           sta sndCur
           rts
 
-* joyn to old tile
+; joyn to old tile
 playSndJO lda sndDst2
           sta sndDstr
           lda #sndFre1-sndFstr
           sta sndCur
           rts
 
-* new tile
+; new tile
 playSndNT lda sndDst2
           sta sndDstr
           lda #sndFre2-sndFstr
           sta sndCur
           rts
 
-* title sound
+; title sound
 playSndTI lda sndDst1
           sta sndDstr
           lda #sndFTit-sndFstr
           sta sndCur
           rts
 
-* victus sound
+; victus sound
 playSndVI lda sndDst1
           sta sndDstr
           lda #sndFTit-sndFstr
           sta sndCur
           rts
 
-* exitus sound
+; exitus sound
 playSndEx lda sndDst1
           sta sndDstr
           lda #sndFExi-sndFstr
@@ -925,15 +861,14 @@ playSndEx lda sndDst1
           rts
 
 
-*************************************
-* Color Registers & Play Field
+; Color Registers & Play Field
 
-* Color Registers 10 + 1 for empty
+; Color Registers 10 + 1 for empty
 colPot    dta b($02)    
           dta b($b2,$a8,$92,$86,$7a)
           dta b($6C,$58,$44,$38,$2C)
 
-* VBLK & DLI
+; VBLK & DLI
 
 colBG     dta b($00)
 
@@ -941,15 +876,8 @@ colDliCtl dta b($00,$00,$01,$00)
           dta b($00,$01,$00,$00)
           dta b($01,$00,$00,$01)
 
-*** VBLK ****************************
-colVblki
-;          pha
-;          txa
-;          pha
-;          tya
-;          pha
-
-          lda #$00  ;reset DLI counter
+; VBLK
+colVblki  lda #$00  ;reset DLI counter
           sta colIdx
           lda #$0b
           sta sclIdx
@@ -994,7 +922,7 @@ colScLp   ldy fldSc1,X
 
           rti
 
-*** DLI *****************************
+; DLI
 colDli    pha
           txa
           pha
@@ -1039,7 +967,7 @@ colDliEnd dec sclIdx
           pla
           rti
 
-*** Keyboard IRQ *********************
+; Keyboard IRQ
 kybdfIrq  sta CH
 
           pla
@@ -1049,64 +977,64 @@ kybdfIrq  sta CH
           pla
           rti
 
-          org $B000
+; for MADS comment next line and uncomment following line
+          blk padding $b000 $ff
+;          org $B000
 
-*************************************
-* Screen Memory Title
+; Screen Memory Title
 
-*  V A R I U S
+;  V A R I U S
 titScrH dta b($00,$00,$00,$00,$00)
         dta b($36,$00,$61,$00,$b2)
         dta b($00,$e9,$00,$75,$00)
         dta b($33,$00,$00,$00,$00)
-* BY HOLGER JANZ
+; BY HOLGER JANZ
 titScrC dta b($00,$00,$00,$a2,$b9)
         dta b($00,$a8,$af,$ac,$a7)
         dta b($a5,$b2,$00,$aa,$a1)
         dta b($ae,$ba,$00,$00,$00)
-*    ABBUC
+;    ABBUC
 titScrA dta b($00,$00,$00,$00,$00)
         dta b($00,$00,$00,$a1,$a2)
         dta b($a2,$b5,$a3,$00,$00)
         dta b($00,$00,$00,$00,$00)
-* SOFTWARE CONTEST
+; SOFTWARE CONTEST
         dta b($00,$00,$b3,$af,$a6)
         dta b($b4,$b7,$a1,$b2,$a5)
         dta b($00,$a3,$af,$ae,$b4)
         dta b($a5,$b3,$b4,$00,$00)
-* 2021
+; 2021
         dta b($00,$00,$00,$00,$00)
         dta b($00,$00,$00,$92,$90)
         dta b($92,$91,$00,$00,$00)
         dta b($00,$00,$00,$00,$00)
-* MOVE ALL TILES
+; MOVE ALL TILES
 titScrE dta b($00,$00,$00,$ad,$af)
         dta b($b6,$a5,$00,$a1,$ac)
         dta b($ac,$00,$b4,$a9,$ac)
         dta b($a5,$b3,$00,$00,$00)
-* JOYN SAME COLOR
+; JOYN SAME COLOR
         dta b($00,$00,$00,$aa,$af)
         dta b($b9,$ae,$00,$b3,$a1)
         dta b($ad,$a5,$00,$a3,$af)
         dta b($ac,$af,$b2,$00,$00)
-* VICTUS HIGHEST COLOR
+; VICTUS HIGHEST COLOR
         dta b($b6,$a9,$a3,$b4,$b5)
         dta b($b3,$00,$a8,$a9,$a7)
         dta b($a8,$a5,$b3,$b4,$00)
         dta b($a3,$af,$ac,$af,$b2)
-* EXITUS NO NEW TILE
+; EXITUS NO NEW TILE
         dta b($00,$a5,$b8,$a9,$b4)
         dta b($b5,$b3,$00,$ae,$af)
         dta b($00,$ae,$a5,$b7,$00)
         dta b($b4,$a9,$ac,$a5,$00)
-* PRESS START
+; PRESS START
 titScrP dta b($00,$00,$00,$00,$00)
         dta b($70,$72,$65,$73,$73)
         dta b($00,$73,$74,$61,$72)
         dta b($74,$00,$00,$00,$00)
 
-*************************************
-* Display List Title
+; Display List Title
 
 titDspLst dta b($70,$70,$70,$70,$70)
           dta b($70),b($47),a(titScrH)
@@ -1119,13 +1047,12 @@ titDspLst dta b($70,$70,$70,$70,$70)
           dta b($06,$06,$06)
           dta b($70,$70)
           dta b($70),b($46),a(titScrP)
-* end jump
+; end jump
   dta b($41),a(titDspLst)
 
-*************************************
-* Screen Memory Game
+; Screen Memory Game
 
-* Line with Scale
+; Line with Scale
 colS1 dta b($00,$00,$55,$55)
       dta b($00,$00,$00,$00)
       dta b($01,$11,$11,$11)
@@ -1137,7 +1064,7 @@ colS1 dta b($00,$00,$55,$55)
       dta b($00,$00,$00,$00)
       dta b($06,$66,$60,$00)
 
-* Line without Scale
+; Line without Scale
 colS2 dta b($00,$00,$00,$00)
       dta b($00,$00,$00,$00)
       dta b($01,$11,$11,$11)
@@ -1149,14 +1076,13 @@ colS2 dta b($00,$00,$00,$00)
       dta b($00,$00,$00,$00)
       dta b($00,$00,$00,$00)
 
-*************************************
-* Display List Game
+; Display List Game
 
 colDspLst dta b($70,$70)
           dta b($46),a(colHL)
           dta b($30)
 
-* Row 1
+; Row 1
   dta b($b0)
 
   dta b($4f),a(colS1),b($4f),a(colS1)
@@ -1186,7 +1112,7 @@ colDspLst dta b($70,$70)
   dta b($4f),a(colS1),b($4f),a(colS1)
   dta b($4f),a(colS1),b($4f),a(colS1)
 
-* Row 2
+; Row 2
   dta b($b0)
 
   dta b($4f),a(colS1),b($4f),a(colS1)
@@ -1216,7 +1142,7 @@ colDspLst dta b($70,$70)
   dta b($4f),a(colS1),b($4f),a(colS1)
   dta b($4f),a(colS1),b($4f),a(colS1)
 
-* Row 3
+; Row 3
   dta b($b0)
 
   dta b($4f),a(colS1),b($4f),a(colS1)
@@ -1246,7 +1172,7 @@ colDspLst dta b($70,$70)
   dta b($4f),a(colS1),b($4f),a(colS1)
   dta b($4f),a(colS1),b($4f),a(colS1)
 
-* Row 4
+; Row 4
   dta b($b0)
 
   dta b($4f),a(colS1),b($4f),a(colS1)
@@ -1276,42 +1202,45 @@ colDspLst dta b($70,$70)
   dta b($4f),a(colS1),b($4f),a(colS1)
   dta b($4f),a(colS1),b($4f),a(colS1)
 
-* end jump
+; end jump
   dta b($41),a(colDspLst)
 
 
-*** init data for page 4 **************
+; init data for page 4
 
 pg4bgn equ *
 
-* Right Scale
+; Right Scale
 ifldSc1    dta b($00,$02,$03,$04)
            dta b($05,$06,$07,$08)
            dta b($09,$0a)
-* Play Field
+; Play Field
 iplyFld    dta b($00,$00,$00,$00)
            dta b($00,$00,$00,$00)
            dta b($00,$00,$00,$00)
            dta b($00,$00,$00,$00)
-* Left Scale
+; Left Scale
 ifldSc2    dta b($01,$00,$00,$00)
            dta b($00,$00,$00,$00)
            dta b($00,$00)
 
-* Header Line
-* 00000
+; Header Line
+; 00000
 icolHL dta b($90,$90,$90,$90,$90)
        dta b($00,$00)
-* VARIUS
+; VARIUS
 icolHT dta b($36,$21,$32,$29,$35,$33)
        dta b($00,$00)
-* 00000
+; 00000
 icolHH dta b($50,$50,$50,$50,$50)
 
 pg4end equ *
 
 ; cartridge title, year, and start address
-         org $bfe8
+; for MADS comment next line and uncomment following line
+         blk padding $bfe8 $ff
+;         org $BFE8
+
          dta b(0,0,0)
          dta b($36,$21,$32,$29,$35,$33,0,$22,$39,0,$28,$2A,$38) ; VARIUS BY HJX
          dta b(0,0,0,0)

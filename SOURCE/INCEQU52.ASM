@@ -1,0 +1,66 @@
+; OS EQUATES FOR 5200
+; PAGE 0
+POKMSK   equ $00
+RTCLOK2  equ $01
+RTCLOK1  equ $02
+CRITIC   equ $03
+ATRACT   equ $04
+SDLSTL   equ $05
+SDLSTH   equ $06
+SDMCTL   equ $07
+PCOLR0   equ $08
+PCOLR1   equ $09
+PCOLR2   equ $0a
+PCOLR3   equ $0b
+COLOR0   equ $0c
+COLOR1   equ $0d
+COLOR2   equ $0e
+COLOR3   equ $0f
+COLOR4   equ $10
+PADDL0   equ $11
+PADDL1   equ $12
+PADDL2   equ $13
+PADDL3   equ $14
+PADDL4   equ $15
+PADDL5   equ $16
+PADDL6   equ $17
+PADDL7   equ $18
+; PAGE 2
+VIMIRQ   equ $200 ;IMMED IRQ VECTOR
+VVBLKI   equ $202 ;IMM VBLK NMI VECTOR
+VVBLKD   equ $204 ;DEF VBLK NMI VECTOR
+VDSLST   equ $206 ;DSP LIST NMI VECTOR
+VKYBDI   equ $208 ;POKEY KB IRQ VECTOR
+VKYBDF   equ $20A ;Keypad routine continuation vector
+VTRIGR   equ $20C ;BREAK KEY VECTOR
+VBRKOP   equ $20E ;BRK INST IRQ VECTOR
+VSERIN   equ $210 ;POKEY INPUT RDY IRQ
+VSEROR   equ $212 ;POKEY OUTPUT RDY
+VSEROC   equ $214 ;POKEY OUTPUT DONE
+VTIMR1   equ $216 ;POKEY TIMER 1 IRQ
+VTIMR2   equ $218 ;POKEY TIMER 2 IRQ
+VTIMR4   equ $21A ;POKEY TIMER 4 IRQ
+; GTIA
+TRIG0    equ $c010
+TRIG1    equ $c011
+TRIG2    equ $c012
+TRIG3    equ $c013
+COLPM0   equ $c012
+COLPM1   equ $c013
+COLPM2   equ $c014
+COLPM3   equ $c015
+COLPF0   equ $c016
+COLPF1   equ $c017
+COLPF2   equ $c018
+COLPF3   equ $c019
+COLBAK   equ $c01a
+PRIOR    equ $c01b
+CONSOL   equ $c01f
+; POKEY
+AUDF1    equ $e800
+AUDC1    equ $e801
+AUDCTL   equ $e808
+IRQEN    equ $e80e
+SKCTL    equ $e80f
+; ANTIC
+NMIEN    equ $d40e
